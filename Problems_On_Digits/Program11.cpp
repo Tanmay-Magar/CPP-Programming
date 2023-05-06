@@ -1,42 +1,59 @@
-// Accept N number from user and check if number is armstrong or not
+// Accept 1 number from user and check number is armstrong or not 
 
 #include<iostream>
 using namespace std;
 
-class Digit
+class Digits
 {
-    public :
-
-        int iDigit;
-        int Temp;
-        int iSum;
-        int iOrg;
-
-        Digit(int iNo)
+    private:
+        int CountDigits(int iNo)
         {
-            iDigit = 0;
-            Temp = iNo;
-            iOrg = iNo;
-            iSum = 0;
+            int iCnt = 0;
+
+            while(iNo != 0)
+            {
+                iCnt++;
+
+                iNo = iNo / 10;
+            }
+
+            return iCnt;
         }
 
-        int ChkArmStr()
+        int Power(int Base, int Index)
         {
-            if(Temp < 0)
+            int iAns = 1;
+
+            for(int iCnt = 1; iCnt <= Index; iCnt++)
             {
-                Temp = -Temp;
+                iAns = iAns * Base;
             }
 
-            while(Temp != 0)
+            return iAns;
+        }
+
+    public:
+        bool CheckArmstrong(int iNo)
+        {
+            int iTemp = iNo;
+            int iSum = 0;
+            int iDigit = 0;
+            int iRet = 0;
+
+            int iCount = CountDigits(iNo); 
+            
+            while(iTemp != 0)
             {
-                iDigit = Temp % 10;
+                iDigit = iTemp % 10;
 
-                iSum = iSum + (iDigit * iDigit * iDigit);
+                iRet = Power(iDigit, iCount);
 
-                Temp = Temp / 10;
+                iSum = iSum + iRet;
+
+                iTemp = iTemp / 10;
             }
 
-            if(iSum == iOrg)
+            if(iSum == iNo)
             {
                 return true;
             }
@@ -44,30 +61,27 @@ class Digit
             {
                 return false;
             }
-
         }
 };
 
 int main()
 {
-    int iValue = 0;
-    bool bRet = 0;
+    int iNo = 0;
+    bool bRet = false;
 
-    cout<<"Entre number :\n";
-    cin>>iValue;
+    cout<<"Please enter number : "<<"\n";
+    cin>>iNo;
 
-    Digit dobj(iValue);
+    Digits *nobj = new Digits();
 
-    bRet = dobj.ChkArmStr();
+    bRet = nobj->CheckArmstrong(iNo);
 
     if(bRet == true)
     {
-        cout<<iValue<<" is armstrong number."<<"\n";
+        cout<<iNo<<" is an Armstrong number."<<"\n";
     }
     else
     {
-        cout<<iValue<<" is not an armstrong number."<<"\n";
+        cout<<iNo<<" is not an Armstrong number."<<"\n";
     }
-
-    return 0;
 }
